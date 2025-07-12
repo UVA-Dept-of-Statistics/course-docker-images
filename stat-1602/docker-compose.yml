@@ -1,0 +1,30 @@
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jupyter-datascience
+    ports:
+      - "8888:8888"
+    volumes:
+      # Mount current directory to /workspace for persistent storage
+      - ./notebooks:/workspace/notebooks
+      # Mount a directory for data files
+      - ./data:/workspace/data
+      # Optional: mount additional directories as needed
+      # - ./assignments:/workspace/assignments
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    restart: unless-stopped
+    # Optionally set resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 1G
+
+# Optional: Create named volumes for persistent storage
+volumes:
+  jupyter_data:
+    driver: local
