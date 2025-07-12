@@ -1,4 +1,4 @@
-# Jupyter Lab Data Science Environment
+# STAT-1602 JupyterLab Environment
 
 A Docker-based Jupyter Lab environment with comprehensive scientific Python libraries, including `datascience 0.17.6` and `otter-grader 6.1.3` for educational and research purposes.
 
@@ -158,22 +158,3 @@ docker compose down
 docker compose build --no-cache
 docker compose up -d
 ```
-
-## Advanced Configuration
-
-### Custom Jupyter Configuration
-The container includes a pre-configured Jupyter Lab setup. To customize:
-1. Create a `jupyter_lab_config.py` file
-2. Mount it as a volume in `docker-compose.yml`
-3. Restart the container
-
-### Adding System Dependencies
-To add system packages, edit the Dockerfile and add them to the `apt-get install` command.
-
-## Security Notes
-
-⚠️ **Important**: This configuration is designed for development use. For production:
-- Enable authentication (remove the token/password disable settings)
-- Use HTTPS
-- Restrict network access
-- Review security settings
