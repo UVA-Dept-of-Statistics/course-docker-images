@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg-info/
+*.egg
+*.log
+*.sqlite3
+*.db
+*.ipynb
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+.Ruserdata
+
+# Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# VS Code server in container
+.vscode/
+.code-server/
+.code-server-config/
+
+# Docker
+*.env
+*.env.*
+docker-compose.override.yml
+**/workspace/*  # If workspace is for user code
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Jupyter runtime files
+.jupyter/
+.ipython/
+
+# Cache
+.cache/
+*.bak
+
