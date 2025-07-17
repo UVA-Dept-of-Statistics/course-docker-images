@@ -1,12 +1,6 @@
 services:
   jupyterlab:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        USERNAME: jupyter
-        USER_UID: 1011
-        USER_GID: 1011
+    image: tbrown122387/stat-5430:latest
     container_name: jupyter-py-r
     ports:
       - "8888:8888"
