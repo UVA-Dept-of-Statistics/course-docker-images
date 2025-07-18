@@ -1,9 +1,10 @@
 services:
   jupyterlab:
+    build: .
     image: tbrown122387/stat-5430:latest
     container_name: jupyter-py-r
     ports:
       - "8888:8888"
     volumes:
-      - ./workspace:/workspace
+      - .:/workspace
 
