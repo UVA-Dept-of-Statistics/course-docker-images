@@ -5,6 +5,7 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Install system packages
 RUN apt-get update && \
@@ -15,9 +16,18 @@ RUN apt-get update && \
         python3 python3-pip python3-venv \
         r-base \
         libssl-dev libcurl4-gnutls-dev libxml2-dev \
+        libclang-dev lsb-release sudo psmisc \
         tini && \
     locale-gen en_US.UTF-8 && \
     rm -rf /var/lib/apt/lists/*
+
+# Install RStudio Server
+RUN wget https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2024.04.1-748-amd64.deb && \
+    apt-get install -y ./rstudio-server-2024.04.1-748-amd64.deb && \
+    rm rstudio-server-2024.04.1-748-amd64.deb
+
+# Create required user for RStudio login
+RUN useradd -ms /bin/bash rstudio && echo "rstudio:rstudio" | chpasswd
 
 # Install Python packages
 RUN python3 -m venv /opt/venv && \
@@ -26,19 +36,20 @@ RUN python3 -m venv /opt/venv && \
         numpy pandas scipy scikit-learn matplotlib seaborn \
         jupyterlab ipykernel notebook
 
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Install R packages and register IRkernel
+# Install R packages and IRkernel
 RUN R -e "install.packages(c('tidyverse', 'IRkernel'), repos='https://cloud.r-project.org')" && \
     R -e "IRkernel::installspec(user = FALSE)"
 
-# Create workspace
+# Copy entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Default workspace
+WORKDIR /workspace
 RUN mkdir -p /workspace
 
-WORKDIR /workspace
+# Expose ports
+EXPOSE 8888 8787
 
-EXPOSE 8888
-
-ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]
 

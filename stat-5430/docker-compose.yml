@@ -1,10 +1,13 @@
 services:
-  jupyterlab:
+  statlab:
     build: .
     image: tbrown122387/stat-5430:latest
     container_name: jupyter-py-r
     ports:
-      - "8888:8888"
+      - "8888:8888"  # Jupyter
+      - "8787:8787"  # RStudio
+    environment:
+      - MODE=${MODE}
     volumes:
       - .:/workspace
 

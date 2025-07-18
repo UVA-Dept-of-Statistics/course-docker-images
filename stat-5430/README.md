@@ -1,6 +1,6 @@
 # STAT-5430 JupyterLab Environment
 
-A Docker-based Jupyter Lab environment for R and Python. 
+A Docker-based environment for R and Python with JupyterLab and RStudio Server.
 
 ## Quick Start
 
@@ -10,33 +10,34 @@ A Docker-based Jupyter Lab environment for R and Python.
 
 ### Setup and Launch
 
-Download or clone this repository and then type 
+Always specify which server to run by setting the `MODE` environment variable when starting the container:
 
-   ```bash
-   docker compose up -d
-   ```
+- Start **JupyterLab**:
 
-5. **Access Jupyter Lab**:
-   - Open your browser and navigate to: `http://localhost:8888`
-   - No password or token required (configured for development use)
+  ```bash
+  MODE=jupyter docker compose up -d --build
+  ```
+  
+You may or may not need a `sudo` in front of that command, depending on how you installed Docker. 
+
+Access at: `http://localhost:8888` No password or token required.
+
+
+- Start RStudio Server:
+
+  ```bash
+  MODE=rstudio docker compose up -d --build
+  ```
+
+You may or may not need a `sudo` in front of that command, depending on how you installed Docker. 
+   
+Access at: http://localhost:8787 Login with username: rstudio and password: rstudio
+
 
 ### Stopping the Environment
 
-To stop the Jupyter Lab server:
-```bash
-docker compose down
-```
-
-This will:
-- Stop the running container
-- Remove the container
-- Preserve all files in the mounted directories (`notebooks/` and `data/`)
-- Keep the Docker image for future use
-
-### Restarting
-
-To restart the environment:
-```bash
-docker compose up -d
-```
-
+  ```bash
+  docker compose down
+  ```
+  
+  
